@@ -248,9 +248,11 @@
     $('#word').style.color = 'white';
     $('#options').innerHTML = '';
     $('#intro').innerHTML = `Jugador: <strong>${playerName}</strong><br>Resultados · <strong>Precisión: ${acc}%</strong> · RT medio: <strong>${mean.toFixed(0)} ms</strong> · RT mediana: <strong>${median.toFixed(0)} ms</strong>`;
+    $('#restartBtn').textContent = 'Iniciar de nuevo'; // Cambia el texto del botón
     $('#restartBtn').classList.remove('hidden');
     speak('Prueba finalizada');
     $('#playerName').disabled = false;
+    $('#playerName').value = ''; // Limpia el campo de nombre
 
     // Calcular tiempo total en segundos con 3 decimales y separador de coma
     const totalRT = state.rts.reduce((a, b) => a + b, 0);
@@ -381,6 +383,12 @@
   $('#startBtn').addEventListener('click', start);
   $('#restartBtn').addEventListener('click', ()=>{
     $('#playerName').disabled = false;
+    // No inicies si el campo está vacío
+    if (!$('#playerName').value.trim()) {
+      $('#playerName').focus();
+      $('#playerName').style.borderColor = "#ef4444";
+      return;
+    }
     start();
   });
 
